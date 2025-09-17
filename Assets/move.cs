@@ -2,14 +2,22 @@ using UnityEngine;
 
 public class AutoMove : MonoBehaviour
 {
-    public Vector3 direction = Vector3.forward; // Direction du mouvement (par défaut: avant Z+)
-    public float speed = 5f;                     // Vitesse en unités/seconde
+    float verticalInput;
+    float horizontalInput;
+    [SerializeField] Rigidbody componentRigidbody;
+    [SerializeField] float speed;
+   
+    // Vitesse en unitï¿½s/seconde
     private void Start()
     {
         Debug.Log("jsp");
     }
     void Update()
     {
-        transform.Translate(direction.normalized * speed * Time.deltaTime, Space.World);
+        verticalInput = Input.GetAxis("Vertical");
+        horizontalInput = Input.GetAxis("Horizontal");
+        Vector3 direction = new Vector3(horizontalInput * Time.deltaTime, 0, verticalInput * Time.deltaTime);
+        direction.Normalize();
+        componentRigidbody.linearVelocity = direction * speed;
     }
 }
