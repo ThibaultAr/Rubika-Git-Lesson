@@ -19,3 +19,7 @@ public class JusteBougeFDP : MonoBehaviour
         transform.Translate(direction.normalized * speed * Time.deltaTime, Space.World);
     }
 }
+
+
+
+//coucou Thomas
