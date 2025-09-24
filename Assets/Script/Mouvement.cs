@@ -1,63 +1,62 @@
 using UnityEngine;
-using System.Collections;
 
-public class Perso : MonoBehaviour
+public class PlayerMovement : MonoBehaviour
 {
+    public float speed = 5f;            // vitesse de déplacement
+    public float jumpForce = 5f;        // force du saut
+    public Rigidbody rb;                // rigidbody du joueur
+    public Transform cameraTransform;   // référence à la caméra
 
-    private Animator animator;
-    private float Vitesse;
-    private float Rotation = 80f;
+    private Vector3 moveDirection;
+    private bool isGrounded = true;     // savoir si le joueur est au sol
 
-    void Awake()
+    void Update()
     {
-        animator = GetComponent<Animator>();
+        // Récupère input clavier
+        float horizontal = Input.GetAxis("Horizontal"); // A/D ou flèches
+        float vertical = Input.GetAxis("Vertical");     // W/S ou flèches
+
+        // Direction selon la caméra
+        Vector3 forward = cameraTransform.forward;
+        Vector3 right = cameraTransform.right;
+
+        // On ignore la rotation verticale de la caméra
+        forward.y = 0f;
+        right.y = 0f;
+
+        forward.Normalize();
+        right.Normalize();
+
+        // Calcule la direction de déplacement
+        moveDirection = (forward * vertical + right * horizontal).normalized;
+
+        // Saut
+        if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
+        {
+            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            isGrounded = false;
+        }
     }
+
     void FixedUpdate()
     {
-        Marche();
-        Tourner();
+        // Déplacement avec Rigidbody
+        rb.MovePosition(rb.position + moveDirection * speed * Time.fixedDeltaTime);
+
+        // Tourner le joueur dans la direction du mouvement
+        if (moveDirection != Vector3.zero)
+        {
+            Quaternion targetRotation = Quaternion.LookRotation(moveDirection);
+            rb.rotation = Quaternion.Slerp(rb.rotation, targetRotation, 0.15f);
+        }
     }
 
-    //Fonction Marche personnage
-    void Marche()
+    // Vérifie si le joueur touche le sol
+    private void OnCollisionEnter(Collision collision)
     {
-        if (Input.GetKey(KeyCode.UpArrow))
+        if (collision.contacts[0].normal.y > 0.5f) // contact avec le sol
         {
-            transform.Translate(Vector3.forward * 4f * Time.deltaTime);
-            animator.SetFloat("Deplacement", 4);
-            if (Input.GetKey(KeyCode.RightShift))
-            {
-                transform.Translate(Vector3.forward * 6f * Time.deltaTime);
-                animator.SetFloat("Deplacement", 10);
-            }
-        }
-        else if (Input.GetKey(KeyCode.DownArrow))
-        {
-            transform.Translate(-Vector3.forward * 3f * Time.deltaTime);
-            animator.SetFloat("Deplacement", -3);
-        }
-        else
-            animator.SetFloat("Deplacement", 0);
-
-        if (Input.GetKey(KeyCode.Space))
-        {
-            transform.Translate(Vector3.up * 10f * Time.deltaTime);
-            animator.SetBool("Saut", true);
-        }
-        else
-            animator.SetBool("Saut", false);
-    }
-
-    //Fonction Rotation personnage
-    void Tourner()
-    {
-        if (Input.GetKey(KeyCode.LeftArrow))
-        {
-            transform.Rotate(Vector3.up, -Rotation * Time.deltaTime);
-        }
-        if (Input.GetKey(KeyCode.RightArrow))
-        {
-            transform.Rotate(Vector3.up, Rotation * Time.deltaTime);
+            isGrounded = true;
         }
     }
 }
