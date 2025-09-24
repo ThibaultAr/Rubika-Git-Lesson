@@ -1,5 +1,9 @@
 fileFormatVersion: 2
-guid: 622c8eedf38e89b47896c3304fef0ca4
+<<<<<<< HEAD
+guid: dfd6c60f71926ab4da83e0e49fc2aa62
+=======
+guid: 7bf1017af56479a4dbf7def86e9d421c
+>>>>>>> 8af5df0 (vole de pied)
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -93,6 +97,22 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+<<<<<<< HEAD
+=======
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+>>>>>>> 8af5df0 (vole de pied)
   spriteSheet:
     serializedVersion: 2
     sprites: []
