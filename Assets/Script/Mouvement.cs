@@ -2,32 +2,32 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    public float speed = 5f;            // vitesse de déplacement
+    public float speed = 5f;            // vitesse de dï¿½placement
     public float jumpForce = 5f;        // force du saut
     public Rigidbody rb;                // rigidbody du joueur
-    public Transform cameraTransform;   // référence à la caméra
+    public Transform cameraTransform;   // rï¿½fï¿½rence ï¿½ la camï¿½ra
 
     private Vector3 moveDirection;
     private bool isGrounded = true;     // savoir si le joueur est au sol
 
     void Update()
     {
-        // Récupère input clavier
-        float horizontal = Input.GetAxis("Horizontal"); // A/D ou flèches
-        float vertical = Input.GetAxis("Vertical");     // W/S ou flèches
+        // Rï¿½cupï¿½re input clavier
+        float horizontal = Input.GetAxis("Horizontal"); // A/D ou flï¿½ches
+        float vertical = Input.GetAxis("Vertical");     // W/S ou flï¿½ches
 
-        // Direction selon la caméra
+        // Direction selon la camï¿½ra
         Vector3 forward = cameraTransform.forward;
         Vector3 right = cameraTransform.right;
 
-        // On ignore la rotation verticale de la caméra
+        // On ignore la rotation verticale de la camï¿½ra
         forward.y = 0f;
         right.y = 0f;
 
         forward.Normalize();
         right.Normalize();
 
-        // Calcule la direction de déplacement
+        // Calcule la direction de dï¿½placement
         moveDirection = (forward * vertical + right * horizontal).normalized;
 
         // Saut
@@ -40,7 +40,7 @@ public class PlayerMovement : MonoBehaviour
 
     void FixedUpdate()
     {
-        // Déplacement avec Rigidbody
+        // Dï¿½placement avec Rigidbody
         rb.MovePosition(rb.position + moveDirection * speed * Time.fixedDeltaTime);
 
         // Tourner le joueur dans la direction du mouvement
@@ -51,7 +51,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    // Vérifie si le joueur touche le sol
+    // Vï¿½rifie si le joueur touche le sol
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.contacts[0].normal.y > 0.5f) // contact avec le sol
